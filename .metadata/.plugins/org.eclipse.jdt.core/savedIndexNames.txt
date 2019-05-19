@@ -1,0 +1,2 @@
+INDEX VERSION 1.131+D:\MIS DOCUMENTOS\Documents\2019-1\APO II\Banner\.metadata\.plugins\org.eclipse.jdt.core
+2699706575.index
