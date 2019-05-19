@@ -8,12 +8,10 @@ public class DataBase {
 	
 	public Attendee root;
 	public Attendee firstAttendee;
-	public Attendee firstParticipant;
+	piblic Attendee firstParticipant;
 	
 	public DataBase() {
 		root = null;
-		firstAttendee = null;
-		firstParticipant = null;
 	}
 	
 	public void loadFile(String filename) throws IOException {

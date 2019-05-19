@@ -5,15 +5,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class DataBase {
-	
 	public Attendee root;
-	public Attendee firstAttendee;
-	public Attendee firstParticipant;
+	public Attendee first;
 	
 	public DataBase() {
 		root = null;
-		firstAttendee = null;
-		firstParticipant = null;
 	}
 	
 	public void loadFile(String filename) throws IOException {

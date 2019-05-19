@@ -12,8 +12,6 @@ public class DataBase {
 	
 	public DataBase() {
 		root = null;
-		firstAttendee = null;
-		firstParticipant = null;
 	}
 	
 	public void loadFile(String filename) throws IOException {
