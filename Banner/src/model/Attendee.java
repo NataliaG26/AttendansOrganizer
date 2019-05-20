@@ -14,6 +14,7 @@ public class Attendee {
 	private String country;
 	private String photo;
 	private String birthday;
+	
 	/**
 	 * @param id
 	 * @param first_name

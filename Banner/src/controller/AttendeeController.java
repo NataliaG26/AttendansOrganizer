@@ -3,10 +3,13 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -16,11 +19,23 @@ import model.DataBase;
 
 public class AttendeeController {
 	
-	@FXML
+    @FXML
     private ImageView image;
 
     @FXML
-    private Label dataLabel;
+    private TextField countryText;
+
+    @FXML
+    private TextField bdText;
+
+    @FXML
+    private TextField emailText;
+
+    @FXML
+    private TextField lastNameText;
+
+    @FXML
+    private TextField nameText;
 
     @FXML
     private TextField loadTextField;
@@ -41,28 +56,30 @@ public class AttendeeController {
 
     }
     
-    /* This method conect uses a FileChoser to load the list of attendents to the event 
+    /* This method connect uses a FileChoser to load the list of attendants to the event 
      */
     @FXML
     void fileLoaderOption(ActionEvent event) {
     	Window w = null;
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Open Resource File");
-    	fileChooser.setInitialDirectory(new File(System.getProperty("./data/AsistantsInfo.txt")));
+    	fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
     	 fileChooser.getExtensionFilters().addAll(
     	         new ExtensionFilter("Text Files", "*.txt"));
     	 File selectedFile = fileChooser.showOpenDialog(w );
     	 if (selectedFile != null && selectedFile.canRead()) {
-    		 try {
-				organizer.loadFile(selectedFile.getName());
-			} catch (IOException e) {
-			}
-    	 }
+    			loadTextField.setText(selectedFile.getAbsolutePath());
+    	 } else
+    		 JOptionPane.showMessageDialog(null,"Wrong option, this can't be loaded");
     }
 
     @FXML
     void loadList(ActionEvent event) {
-
+    	try {
+			organizer.loadFile(loadTextField.getText());
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"Wrong file, this can't be loaded");
+		}
     }
 
     @FXML
@@ -82,6 +99,7 @@ public class AttendeeController {
 
 	public void initialize() {
 		organizer = new DataBase();
+		image.setImage(new Image("./picaturesData/avatarBydefault.png"));
 	}
 	
 }
