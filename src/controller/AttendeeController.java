@@ -88,7 +88,6 @@ public class AttendeeController implements Initializable {
     	         new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
     	         new ExtensionFilter("All Files", "*."
     	         		+ "*"));
-    	// fileChooser.setInitialDirectory(defaultDirectory);
     	 File selectedFile = fileChooser.showOpenDialog(w );
     	 if (selectedFile != null && selectedFile.canRead()) {
     			loadTextField.setText(selectedFile.getAbsolutePath());
@@ -99,13 +98,14 @@ public class AttendeeController implements Initializable {
     @FXML
     void loadList(ActionEvent event) {
     	try {
-    		
 			organizer.loadFile(loadTextField.getText());
-			//organizer.createListAttendee();
 			organizer.createListParticipants();
+			organizer.createListAttendee();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"Wrong file, this can't be loaded");
 		}
+    	System.out.println("Participants\n"+organizer.getFirstParticipant().toStringList());
+    	System.out.println("Attendees\n"+organizer.getFirstAttendee().toStringList());
     }
 
     @FXML
@@ -115,14 +115,26 @@ public class AttendeeController implements Initializable {
 
     @FXML
     void searchAttendee(ActionEvent event) {
-    
+    	try {
+        	long startTime = System.nanoTime();
+    		Attendee r = organizer.searchAssitant(pTextField.getText(),  organizer.getFirstAttendee());
+    		stp1.setText("search time: "+(System.nanoTime() - startTime)+" nanoseconds");
+    		if(r!=null) {
+    		makeItPaint(r);
+    		} else
+    			 throw new IdNotFoundException();
+    		} catch (NumberFormatException e) {
+    			e.printStackTrace();
+    		} catch (IdNotFoundException e) {
+    			e.printStackTrace();
+    		}
     }
 
     @FXML
     void searchParticipant(ActionEvent event) {
     	try {
     	long startTime = System.nanoTime();
-		Attendee r = organizer.searchAssitant(Integer.parseInt(pTextField.getText()),  organizer.getFirstParticipant());
+		Attendee r = organizer.searchAssitant(pTextField.getText(),  organizer.getFirstParticipant());
 		stp1.setText("search time: "+(System.nanoTime() - startTime)+" nanoseconds");
 		if(r!=null) {
 		makeItPaint(r);

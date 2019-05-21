@@ -13,10 +13,11 @@ import exception.IdNotFoundException;
  */
 public class DataBase {
 	
-	private static Attendee root;
+	private Attendee root;
 	private Attendee firstAttendee;
 	private Attendee firstParticipant;
-	public static int numberOfParticipants;
+	private  int numberOfParticipants;
+	
 	public DataBase() {
 		root = null;
 		firstAttendee = null;
@@ -24,11 +25,14 @@ public class DataBase {
 	}
 	
 	public void loadFile(String filename) throws IOException {
-		String f;
+		root = null;
+		numberOfParticipants = 0;
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
-			while((f=bufferedReader.readLine())!=null) {
+		String f= bufferedReader.readLine();
+			while(f !=null) {
 				String [] r =f.split(",");
-				addAttendee(new Attendee(numberOfParticipants,r[1],r[2],r[3],r[4],r[5],r[6],r[7]));
+				addAttendee(new Attendee(r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7]));
+				f= bufferedReader.readLine();
 		}
 		bufferedReader.close();
 	}
@@ -41,11 +45,11 @@ public class DataBase {
 	 * @param a is the id that's go in to be search.
 	 * @return if the attendee exist returns it or return null if it dosen't exist
 	 */
-	public Attendee searchAssitant(int cod,Attendee act) throws IdNotFoundException{
+	public Attendee searchAssitant(String cod,Attendee act) throws IdNotFoundException{
 		
 		boolean find = false;
 		while(!find && act != null) {
-			if(act.getId() == cod) {
+			if(act.getId().equals(cod)) {
 				find = true;
 			}
 			if(!find) {
@@ -57,6 +61,8 @@ public class DataBase {
 		}
 		return act;	
 	}
+	
+	
 	
 	/**
 	 * no usar vacio
@@ -71,7 +77,7 @@ public class DataBase {
 				act = root;
 			}
 			if(des == 1) {
-				cont += addParticipant(act,firstParticipant)? 1: 0;
+				cont += addParticipant(act)? 1: 0;
 			}else if( des == 2) {
 				act = act.getRight();
 			}else {
@@ -82,18 +88,28 @@ public class DataBase {
 	}
 	
 	public void createListAttendee() {
-		firstAttendee = root.listAttendee();
+		firstAttendee = root.createList();
 	}
 	
-	public boolean addParticipant(Attendee a, Attendee roott) {
+	public boolean addParticipant(Attendee a) {
 		boolean b = false;
+		
 		if(a.getBefore() == null && a.getNext()== null) {
-		if(roott == null) {
-			roott = a;
+		if(firstParticipant == null) {
+			firstParticipant = a;
 			b = !b;
 		}else {
-			roott.addNext(a);
-			b = !b;
+			Attendee att = firstParticipant;
+			while(!b) {
+				if(att.getNext() == null) {
+					att.setNext(a);
+					a.setBefore(att);
+					b = !b;
+				}else {
+				att = att.getNext();
+				}
+			}
+			
 		}
 		}
 		return b;
@@ -104,7 +120,7 @@ public class DataBase {
 	 */
 	public void addAttendee(Attendee e) {
 		if(isEmpty()) {
-			 DataBase.root=e;
+			 root=e;
 		} else
 			root.addAttendee(e);
 		numberOfParticipants++;
@@ -115,7 +131,7 @@ public class DataBase {
 	 * @param root is the first element of the three that also is the reference for adding objects to the three
 	 */
 	public void addAttendee(Attendee n,Attendee r) {
-		if(n.getId() > r.getId()) {
+		if(n.getId().compareTo(r.getId()) <= 0) {
 			if(r.getLeft()==null) {
 				r.setLeft(n);
 				numberOfParticipants++;
@@ -140,15 +156,15 @@ public class DataBase {
 	/**
 	 * @return the root
 	 */
-	public static Attendee getRoot() {
-		return	DataBase.root;
+	public Attendee getRoot() {
+		return	root;
 	}
 
 	/**
 	 * @param root the root to set
 	 */
 	public void setRoot(Attendee root) {
-		DataBase.root = root;
+		this.root = root;
 	}
 
 	/**

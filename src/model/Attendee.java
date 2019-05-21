@@ -1,12 +1,12 @@
 package model;
 
 /**
- * @author Natalia Gonzales & Duvan Cuero
+ * @author Natalia Gonzalez & Duvan Cuero
  * @Date 20/05/2019
  */
 public class Attendee {
 	
-	private int id;
+	private String id;
 	
 	private String first_name;
 	private String last_name;
@@ -30,9 +30,9 @@ public class Attendee {
 	 * @param photo -and url or id of the photo-
 	 * @param birthday -what can this be? i don't know, maybe some magic trick-
 	 */
-	public Attendee(int id, String first_name, String last_name, String email, String gender, String country,
+	public Attendee(String id, String first_name, String last_name, String email, String gender, String country,
 			String photo, String birthday) {
-		super();
+		
 		this.id = id;
 		this.first_name = first_name;
 		this.last_name = last_name;
@@ -47,7 +47,8 @@ public class Attendee {
 	}
 	
 	public void addAttendee(Attendee a) {
-		if(a.getId() > this.id) {
+		
+		if(a.getId().compareTo(this.id) <=0) {
 			if(left != null) {
 				left.addAttendee(a);
 			}else {
@@ -62,44 +63,62 @@ public class Attendee {
 		}
 	}
 	
-	public Attendee listAttendee() {
-		Attendee att = null;
-		
-		if(this.next == null && this.before == null) {
-			att = this;
-			if(this.right != null) {
-				att.addNext(listAttendee());
-			}
-			if(this.left != null) {
-				att.addNext(listAttendee());
-			}
-		}else {
-			
-		}
-		
-		
-		return att;
+
+	
+	public String toStringList() {
+		String msj = this.id;
+		msj += this.id+"\n";
+		if(this.next != null)
+		msj += next.toStringList();
+		return msj;
+	}
+	
+	public String toStringTree() {
+		String a = this.id+"\n ";
+		if(this.left != null)
+		a += left.toStringTree();
+		if(this.right != null)
+			a += right.toStringTree();
+		return a;
 	}
 	
 	public void addNext(Attendee a) {
-		if(this.next == null) {
-			this.next = a;
-			a.setBefore(this);
+		if(next== null) {
+			next = a;
 		}else {
-			this.next.addNext(a);
+			next.addNext(a);
 		}
 	}
+	
+	public Attendee createList() {
+		Attendee att = null;
+		if(this.before == null && this.next == null) {
+			att = this;
+			att.addNext(left != null ?left.createList(): null);
+			att.addNext(right != null ?right.createList(): null);
+			
+		}else {
+			att = left != null ?left.createList(): null;
+			if(att == null) {
+				att = right != null ?right.createList(): null;
+			}else {
+				att.addNext(right != null ?right.createList(): null);
+			}
+		}
+		return att;
+	}
+	
 	
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**
@@ -220,7 +239,7 @@ public class Attendee {
 	
 	@Override
 	public String toString() {
-		return null;
+		return id+"";
 	}
 	public Attendee getBefore() {
 		return before;
