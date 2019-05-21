@@ -15,7 +15,7 @@ public class DataBase {
 	public Attendee root;
 	public Attendee firstAttendee;
 	public Attendee firstParticipant;
-	
+	public static int numberOfParticipants;
 	public DataBase() {
 		root = null;
 		firstAttendee = null;
@@ -25,10 +25,9 @@ public class DataBase {
 	public void loadFile(String filename) throws IOException {
 		String f;
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
-		while((f=bufferedReader.readLine())!=null) {
-			String [] r =f.split(",");
-			Attendee q = new Attendee(Integer.parseInt(r[0]),r[1],r[2],r[3],r[4],r[5],r[6],r[7]);
-			addAttendee(q,this.root);
+			while((f=bufferedReader.readLine())!=null) {
+				String [] r =f.split(",");
+				addAttendee(new Attendee(numberOfParticipants,r[1],r[2],r[3],r[4],r[5],r[6],r[7]),this.root);
 		}
 		bufferedReader.close();
 	}
@@ -64,10 +63,12 @@ public class DataBase {
 	public void addAttendee(Attendee e,Attendee root) {
 		if(isEmpty()) {
 			root=e;
+			numberOfParticipants++;
 		}
 		else if(root.getRight().getId()>e.getId()) {
 			if(root.getRight()==null) {
 				root.setRight(e);
+				numberOfParticipants++;
 			}
 			else {
 				addAttendee(e,root.getRight());
@@ -76,11 +77,18 @@ public class DataBase {
 		else  {
 			if(root.getLeft()==null) {
 				root.setLeft(e);
+				numberOfParticipants++;
 			}
 			else {
 				addAttendee(e,root.getLeft());
 			}
 		}
 	}
+	
+	/*	public long knowTime() {
+		long startTime = System.currentTimeMillis();
+		return System.currentTimeMillis() - startTime;
+	}
+	*/
 	
 }

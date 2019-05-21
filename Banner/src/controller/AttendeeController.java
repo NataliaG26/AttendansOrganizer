@@ -49,6 +49,12 @@ public class AttendeeController {
     @FXML
     private AnchorPane paintPane;
     
+    @FXML
+    private Label sta1;
+
+    @FXML
+    private Label stp1;
+    
     private DataBase organizer;
 
     @FXML
@@ -99,7 +105,7 @@ public class AttendeeController {
 
 	public void initialize() {
 		organizer = new DataBase();
-		image.setImage(new Image("./picaturesData/avatarBydefault.png"));
+		image.setImage(new Image("File:picturesData/avatarBydefault.png"));
 	}
 	
 }

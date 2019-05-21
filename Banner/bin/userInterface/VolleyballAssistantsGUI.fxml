@@ -8,11 +8,11 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="782.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AttendeeController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="805.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AttendeeController">
   <tabs>
     <Tab text="Data">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="681.0">
                <children>
                   <AnchorPane layoutX="417.0" layoutY="16.0" prefHeight="314.0" prefWidth="333.0">
                      <children>
@@ -36,6 +36,8 @@
                   <TextField fx:id="loadTextField" editable="false" layoutX="46.0" layoutY="116.0" prefHeight="26.0" prefWidth="145.0" />
                   <TextField fx:id="pTextField" layoutX="46.0" layoutY="198.0" prefHeight="26.0" prefWidth="145.0" />
                   <TextField fx:id="sTextField" layoutX="46.0" layoutY="291.0" prefHeight="26.0" prefWidth="145.0" />
+                  <Label fx:id="sta1" layoutX="68.0" layoutY="330.0" prefHeight="17.0" prefWidth="101.0" text="search time:" />
+                  <Label fx:id="stp1" layoutX="68.0" layoutY="235.0" prefHeight="17.0" prefWidth="101.0" text="search time:" />
                </children></AnchorPane>
       </content>
     </Tab>
