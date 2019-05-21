@@ -80,13 +80,14 @@ public class AttendeeController implements Initializable {
     	Window w = null;
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Open Resource File");
-    	File defaultDirectory = new File("../Banner/data"); 
+    	File defaultDirectory = new File("./data"); 
     	fileChooser.setInitialDirectory(defaultDirectory);
     	 fileChooser.getExtensionFilters().addAll(
     	         new ExtensionFilter("Text Files", "*.txt"),
     	         new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
     	         new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
-    	         new ExtensionFilter("All Files", "*.*"));
+    	         new ExtensionFilter("All Files", "*."
+    	         		+ "*"));
     	// fileChooser.setInitialDirectory(defaultDirectory);
     	 File selectedFile = fileChooser.showOpenDialog(w );
     	 if (selectedFile != null && selectedFile.canRead()) {
@@ -100,7 +101,8 @@ public class AttendeeController implements Initializable {
     	try {
     		
 			organizer.loadFile(loadTextField.getText());
-			
+			//organizer.createListAttendee();
+			organizer.createListParticipants();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"Wrong file, this can't be loaded");
 		}
@@ -119,9 +121,9 @@ public class AttendeeController implements Initializable {
     @FXML
     void searchParticipant(ActionEvent event) {
     	try {
-    	long startTime = System.currentTimeMillis();
-		Attendee r = organizer.searchAssitant(Integer.parseInt(pTextField.getText()),  DataBase.getRoot());
-		stp1.setText("searching time"+(System.currentTimeMillis() - startTime));
+    	long startTime = System.nanoTime();
+		Attendee r = organizer.searchAssitant(Integer.parseInt(pTextField.getText()),  organizer.getFirstParticipant());
+		stp1.setText("search time: "+(System.nanoTime() - startTime)+" nanoseconds");
 		if(r!=null) {
 		makeItPaint(r);
 		} else
@@ -133,7 +135,6 @@ public class AttendeeController implements Initializable {
 		}	
     }
  
-	
 	public void makeItPaint(Attendee b) {
 		nameText.setText(b.getFirst_name());
 		lastNameText.setText(b.getLast_name());
@@ -141,8 +142,7 @@ public class AttendeeController implements Initializable {
 		genderTextF.setText(b.getGender());
 		countryText.setText(b.getCountry());
 		image.setImage(new Image(b.getPhoto()));
-		bdText.setText(b.getBirthday());
-		
+		bdText.setText(b.getBirthday());		
 	}
 
 	@Override

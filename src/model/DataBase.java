@@ -3,6 +3,7 @@ package model;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 import exception.IdNotFoundException;
 
@@ -40,22 +41,62 @@ public class DataBase {
 	 * @param a is the id that's go in to be search.
 	 * @return if the attendee exist returns it or return null if it dosen't exist
 	 */
-	public Attendee searchAssitant(int a,Attendee root) throws IdNotFoundException{
-		Attendee pastel=null;
-		if (!isEmpty()) {
-			if (a ==  DataBase.root.getId()) {
-				return DataBase.root;
-			} else {
-				if((a > root.getId()) && (root.getLeft()!=null)) {
-					pastel = searchAssitant(a,root.getLeft());
-				} else {
-					if(root.getRight()!=null) {
-					pastel = searchAssitant(a,root.getRight());
-					}
-				}
+	public Attendee searchAssitant(int cod,Attendee act) throws IdNotFoundException{
+		
+		boolean find = false;
+		while(!find && act != null) {
+			if(act.getId() == cod) {
+				find = true;
+			}
+			if(!find) {
+				act = act.getNext();
 			}
 		}
-		return pastel;	
+		if(act ==null) {
+			throw new IdNotFoundException();
+		}
+		return act;	
+	}
+	
+	/**
+	 * no usar vacio
+	 * 1 add, 2 der 3 izq
+	 */
+	public void createListParticipants() {
+		int cont = 0;
+		int des = (int)(Math.random()*3)+1;
+		Attendee act = root;
+		while(cont < numberOfParticipants/2) {
+			if(act == null) {
+				act = root;
+			}
+			if(des == 1) {
+				cont += addParticipant(act,firstParticipant)? 1: 0;
+			}else if( des == 2) {
+				act = act.getRight();
+			}else {
+				act = act.getLeft();
+			}
+			des = (int)(Math.random()*3)+1;
+		}
+	}
+	
+	public void createListAttendee() {
+		firstAttendee = root.listAttendee();
+	}
+	
+	public boolean addParticipant(Attendee a, Attendee roott) {
+		boolean b = false;
+		if(a.getBefore() == null && a.getNext()== null) {
+		if(roott == null) {
+			roott = a;
+			b = !b;
+		}else {
+			roott.addNext(a);
+			b = !b;
+		}
+		}
+		return b;
 	}
 	
 	/** Add's an attendee to the binary three
@@ -64,9 +105,9 @@ public class DataBase {
 	public void addAttendee(Attendee e) {
 		if(isEmpty()) {
 			 DataBase.root=e;
-			numberOfParticipants++;
 		} else
-			addAttendee(e, DataBase.root);
+			root.addAttendee(e);
+		numberOfParticipants++;
 	}
 	
 	/** Add's an attendee to the binary three
@@ -100,7 +141,7 @@ public class DataBase {
 	 * @return the root
 	 */
 	public static Attendee getRoot() {
-		return root;
+		return	DataBase.root;
 	}
 
 	/**
@@ -138,15 +179,5 @@ public class DataBase {
 		this.firstParticipant = firstParticipant;
 	}
 	
-	public static void main (String [] args ) {
-		
-		try {
-			DataBase n = new DataBase();
-			n.loadFile("../Banner/data/AttendeesList.txt");
-			System.out.println(n.getRoot().getRight().getRight());
-			System.out.println(n.searchAssitant(3, root).getCountry());
-		} catch (IOException | IdNotFoundException e) {
-			e.printStackTrace();
-		}
-	} 
+	 
 }

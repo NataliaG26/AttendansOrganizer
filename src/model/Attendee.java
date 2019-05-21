@@ -45,6 +45,51 @@ public class Attendee {
 		right= null;
 		left = null;
 	}
+	
+	public void addAttendee(Attendee a) {
+		if(a.getId() > this.id) {
+			if(left != null) {
+				left.addAttendee(a);
+			}else {
+				left = a;
+			}
+		}else {
+			if(right != null) {
+				right.addAttendee(a);
+			}else {
+				right = a;
+			}
+		}
+	}
+	
+	public Attendee listAttendee() {
+		Attendee att = null;
+		
+		if(this.next == null && this.before == null) {
+			att = this;
+			if(this.right != null) {
+				att.addNext(listAttendee());
+			}
+			if(this.left != null) {
+				att.addNext(listAttendee());
+			}
+		}else {
+			
+		}
+		
+		
+		return att;
+	}
+	
+	public void addNext(Attendee a) {
+		if(this.next == null) {
+			this.next = a;
+			a.setBefore(this);
+		}else {
+			this.next.addNext(a);
+		}
+	}
+	
 	/**
 	 * @return the id
 	 */
