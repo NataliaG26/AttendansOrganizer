@@ -12,9 +12,9 @@ import exception.IdNotFoundException;
  */
 public class DataBase {
 	
-	public Attendee root;
-	public Attendee firstAttendee;
-	public Attendee firstParticipant;
+	private Attendee root;
+	private Attendee firstAttendee;
+	private Attendee firstParticipant;
 	public static int numberOfParticipants;
 	public DataBase() {
 		root = null;
@@ -60,27 +60,27 @@ public class DataBase {
 	 * @param e the attendee that's go in to be added
 	 * @param root is the first element of the three that also is the reference for adding objects to the three
 	 */
-	public void addAttendee(Attendee e,Attendee root) {
+	public void addAttendee(Attendee e,Attendee r) {
 		if(isEmpty()) {
 			root=e;
 			numberOfParticipants++;
 		}
-		else if(root.getRight().getId()>e.getId()) {
-			if(root.getRight()==null) {
-				root.setRight(e);
-				numberOfParticipants++;
+		if(r.getId()>r.getId()) {
+		 if(r.getLeft()!=null) {
+			 addAttendee(e,r.getLeft());
 			}
 			else {
-				addAttendee(e,root.getRight());
+				r.setLeft(e);
+				numberOfParticipants++;
 			}
 		}
 		else  {
-			if(root.getLeft()==null) {
-				root.setLeft(e);
-				numberOfParticipants++;
+			if(r.getRight()!=null) {
+				addAttendee(e,r.getRight());
 			}
 			else {
-				addAttendee(e,root.getLeft());
+				r.setRight(e);
+				numberOfParticipants++;
 			}
 		}
 	}
@@ -90,5 +90,60 @@ public class DataBase {
 		return System.currentTimeMillis() - startTime;
 	}
 	*/
+	public static void main (String [] args ) {
+		DataBase r = new DataBase();
+		try {
+			
+			r.loadFile("File:data/AttendeesList.txt");
+			System.out.println(r.root.getCountry());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @return the root
+	 */
+	public Attendee getRoot() {
+		return root;
+	}
+
+	/**
+	 * @param root the root to set
+	 */
+	public void setRoot(Attendee root) {
+		this.root = root;
+	}
+
+	/**
+	 * @return the firstAttendee
+	 */
+	public Attendee getFirstAttendee() {
+		return firstAttendee;
+	}
+
+	/**
+	 * @param firstAttendee the firstAttendee to set
+	 */
+	public void setFirstAttendee(Attendee firstAttendee) {
+		this.firstAttendee = firstAttendee;
+	}
+
+	/**
+	 * @return the firstParticipant
+	 */
+	public Attendee getFirstParticipant() {
+		return firstParticipant;
+	}
+
+	/**
+	 * @param firstParticipant the firstParticipant to set
+	 */
+	public void setFirstParticipant(Attendee firstParticipant) {
+		this.firstParticipant = firstParticipant;
+	}
+	
+	
+	
 	
 }

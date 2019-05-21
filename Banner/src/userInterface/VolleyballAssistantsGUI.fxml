@@ -8,13 +8,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="805.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AttendeeController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="821.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AttendeeController">
   <tabs>
     <Tab text="Data">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="681.0">
                <children>
-                  <AnchorPane layoutX="417.0" layoutY="16.0" prefHeight="314.0" prefWidth="333.0">
+                  <AnchorPane layoutX="417.0" layoutY="16.0" prefHeight="331.0" prefWidth="333.0">
                      <children>
                         <ImageView fx:id="image" fitHeight="109.0" fitWidth="135.0" layoutX="119.0" pickOnBounds="true" preserveRatio="true" />
                         <TextField fx:id="countryText" editable="false" layoutX="202.0" layoutY="260.0" prefHeight="26.0" prefWidth="117.0" />
@@ -27,6 +27,8 @@
                         <Label layoutX="88.0" layoutY="196.0" text="Email" />
                         <Label layoutX="88.0" layoutY="162.0" text="Last name" />
                         <Label layoutX="88.0" layoutY="265.0" text="Country" />
+                        <Label layoutX="91.0" layoutY="300.0" text="gender" />
+                        <TextField fx:id="genderTextF" editable="false" layoutX="202.0" layoutY="296.0" prefHeight="26.0" prefWidth="117.0" />
                      </children>
                   </AnchorPane>
                   <Button layoutX="274.0" layoutY="116.0" mnemonicParsing="false" onAction="#loadList" text="Load List" />

@@ -2,11 +2,15 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
+import exception.IdNotFoundException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -15,11 +19,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import javafx.stage.FileChooser.ExtensionFilter;
+import model.Attendee;
 import model.DataBase;
 
-public class AttendeeController {
+public class AttendeeController implements Initializable {	
 	
-    @FXML
+    public AttendeeController() {
+    	organizer = new DataBase();
+	}
+
+	@FXML
     private ImageView image;
 
     @FXML
@@ -45,6 +54,9 @@ public class AttendeeController {
 
     @FXML
     private TextField sTextField;
+    
+    @FXML
+    private TextField genderTextF;
 
     @FXML
     private AnchorPane paintPane;
@@ -59,7 +71,6 @@ public class AttendeeController {
 
     @FXML
     void attendeePaint(ActionEvent event) {
-
     }
     
     /* This method connect uses a FileChoser to load the list of attendants to the event 
@@ -69,9 +80,10 @@ public class AttendeeController {
     	Window w = null;
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Open Resource File");
-    	fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    	File defaultDirectory = new File("File:data/AttendeesList.txt"); 
     	 fileChooser.getExtensionFilters().addAll(
     	         new ExtensionFilter("Text Files", "*.txt"));
+    	 //fileChooser.setInitialDirectory(defaultDirectory);
     	 File selectedFile = fileChooser.showOpenDialog(w );
     	 if (selectedFile != null && selectedFile.canRead()) {
     			loadTextField.setText(selectedFile.getAbsolutePath());
@@ -95,16 +107,36 @@ public class AttendeeController {
 
     @FXML
     void searchAttendee(ActionEvent event) {
-
+    
     }
 
     @FXML
     void searchParticipant(ActionEvent event) {
-
+    	try {
+		Attendee r = organizer.searchAssitant(Integer.parseInt(pTextField.getText()), organizer.getRoot());
+		makeItPaint(r);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IdNotFoundException e) {
+			e.printStackTrace();
+		}	
     }
+ 
+	
+	public void makeItPaint(Attendee b) {
+		nameText.setText(b.getFirst_name());
+		lastNameText.setText(b.getLast_name());
+		emailText.setText(b.getEmail());
+		genderTextF.setText(b.getGender());
+		countryText.setText(b.getCountry());
+		image.setImage(new Image(b.getPhoto()));
+		bdText.setText(b.getBirthday());
+		
+	}
 
-	public void initialize() {
-		organizer = new DataBase();
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		AttendeeController attendeeController = new AttendeeController();
 		image.setImage(new Image("File:picturesData/avatarBydefault.png"));
 	}
 	
