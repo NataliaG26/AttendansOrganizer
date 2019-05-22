@@ -1,11 +1,13 @@
 package model;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
+import exception.IdNotFoundException;
 import userInterface.APO;
 import userInterface.MIS;
 
@@ -27,14 +29,27 @@ class DataBaseTest {
 	@Test
 	void test1() throws IOException {
 		escenario1();
-		data.loadFile("..\data\dataPrueba.txt");
+		data.loadFile("./data/dataPrueba.txt");
 		
 	}
 	
 
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void testSearchAssitant() throws IdNotFoundException {
+		escenario();
+		assertTrue(data.searchAssitant("02-4155448", data.getRoot()).getFirst_name().equals("Anselma") );
 	}
-
+	
+	@Test
+	void testLoadFIle() throws IOException {
+		escenario1();
+		data.loadFile("./data/dataPrueba.txt");
+		assertTrue(data.getRoot()!=null);
+	}
+	@Test void addAttendee() {
+		escenario1();
+		Attendee q = new Attendee("47-0364871","Mia","Gibbon","mgibbona@nhs.uk","Female","Bulgaria","https://robohash.org/dignissimosdeseruntoccaecati.jpg?size=50x50&set=set1","4/27/2009");
+		data.addAttendee(q );
+		assertTrue(data.getRoot().equals(q));
+	}
 }
